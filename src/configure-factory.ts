@@ -1,9 +1,12 @@
 import { Class, DiscriminatedClass } from "./discriminator-value";
 
-// tslint:disable-next-line:ext-variable-name
-interface Array<T> {
-    filter<U extends T>(pred:(a:T) => a is U):U[];
+declare global {
+    // tslint:disable-next-line:ext-variable-name
+    interface Array<T> {
+        filter<S extends T>(callbackfn:(value:T, index:number, array:ReadonlyArray<T>) => value is S, thisArg?:any):S[];
+    }
 }
+
 
 export type Guard<T, U extends T> = (guardee:T) => guardee is U;
 
