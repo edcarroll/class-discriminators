@@ -8,7 +8,7 @@
   "dependencies": {},
   "devDependencies": {
     "@edcarroll/code-style": "^2.0.0",
-    "typescript": "^2.3.2"
+    "typescript": "^2.2.2"
   },
   "scripts": {
     "lint": "tslint -c tslint.json --type-check --project ./tsconfig.json",
