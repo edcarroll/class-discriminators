@@ -104,15 +104,17 @@ if (guardFactory(Hello)(item)) {
 
 ### @DiscriminatorValue(value:string)
 
-Configures the class with the provided discriminator value.
+Decorator that configures a class with the provided discriminator value.
 
-### configureGuardFactory<T>(discriminatorProperty:keyof T):GuardFactory<...U extends T>
+### configureGuardFactory<T>(discriminatorProperty:keyof T):GuardFactory<T, ...U extends T>
 
 Takes a property name to use for discriminator value checks, and returns a `GuardFactory` function.
 
-#### GuardFactory<...U extends T>(...types:Class<U>[]):Guard<T, U>
+#### GuardFactory<T, ...U extends T>(...types:Class<U>[]):Guard<T, U>
 
 Takes `n` classes decorated with `@DiscriminatorValue` and returns a `Guard`.
+
+*Note that the ...U above is not a real variadic kind, it's emulated using* ***a lot*** *of (up to 15) overflow declarations.*
 
 #### Guard<T, U>(guardee:T) => guardee is U
 
