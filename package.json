@@ -1,7 +1,7 @@
 {
   "name": "class-discriminators",
   "version": "1.0.0",
-  "description": "",
+  "description": "Aids Typescript type checking for class based discriminated unions",
   "main": "dist/cjs/index.js",
   "types": "dist/es6/index.d.ts",
   "module": "dist/es6/index.js",
