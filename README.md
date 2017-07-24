@@ -102,24 +102,24 @@ if (guardFactory(Hello)(item)) {
 
 ### API
 
-### @DiscriminatorValue(value:string)
+### `@DiscriminatorValue(value:string)`
 
 Decorator that configures a class with the provided discriminator value.
 
-### configureGuardFactory<T>(discriminatorProperty:keyof T):GuardFactory<T, ...U extends T>
+### `configureGuardFactory<T>(discriminatorProperty:keyof T):GuardFactory<T, ...U extends T>`
 
 Takes a property name to use for discriminator value checks, and returns a `GuardFactory` function.
 
-#### GuardFactory<T, ...U extends T>(...types:Class<U>[]):Guard<T, U>
+#### `GuardFactory<T, ...U extends T>(...types:Class<U>[]):Guard<T, U>`
 
 Takes `n` classes decorated with `@DiscriminatorValue` and returns a `Guard`.
 
 *Note that the ...U above is not a real variadic kind, it's emulated using* ***a lot*** *of (up to 15) overflow declarations.*
 
-#### Guard<T, U>(guardee:T) => guardee is U
+#### `Guard<T, U>(guardee:T) => guardee is U`
 
 Takes an object of type `T` and returns `true` if its discriminator value is equal to one of the ones passed into the guard factory.
 
-### extractDiscriminators<T>(types:Class<T>[]):string[]
+### `extractDiscriminators<T>(types:Class<T>[]):string[]`
 
 Takes an array of types and returns an array of their discriminator values.
