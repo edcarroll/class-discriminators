@@ -65,7 +65,7 @@ const arr = [itemA, itemB, itemA, itemB];
 // You can use our configured guard factory to filter down to one or more specified types:
 const hellos = arr
     .filter(guardFactory(Hello))
-    .forEach(h => console.log(h.helloProp)); // prints 0, 0.
+    .forEach(h => console.log(h.helloProp)); // prints 10, 10.
 
 const worlds = console.log(arr
     .filter(guardFactory(World))
@@ -81,7 +81,7 @@ const helloWorlds = arr
 Observable
     .of(itemA, itemB, itemA, itemB)
     .filter(guardFactory(Hello))
-    .subscribe(i => console.log(i.helloProp)); // prints 0, 0.
+    .subscribe(i => console.log(i.helloProp)); // prints 10, 10
 ```
 
 ### Individual Guarding
@@ -93,12 +93,12 @@ Individual guarding is less useful as you can just `switch` on the discriminator
 const item:HelloWorld = new Hello();
 
 if (guardFactory(Hello)(item)) {
-    console.log(item.helloProp); // prints 0.
+    console.log(item.helloProp); // prints 10.
 } else if (guardFactory(World)(item)) {
-    console.log(item.worldProp); // prints 1.
+    console.log(item.worldProp); // prints 11.
 }
 
-// The above will print 0 as item is a `Hello` (not a surprise for us,
+// The above will print 10 as item is a `Hello` (not a surprise for us,
 // but at least the type checker is happy!)
 ```
 
