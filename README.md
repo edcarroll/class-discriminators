@@ -17,16 +17,16 @@ Start by decorating your classes with their discriminator values:
 ```typescript
 import { DiscriminatorValue } from "@edcarroll/class-discriminators";
 
-@DiscriminatorValue("hello")
 export class Hello {
+    @DiscriminatorValue("hello")
     public readonly type = "hello";
 
     public sharedProp = 0;
     public helloProp = 10;
 }
 
-@DiscriminatorValue("world")
 export class World {
+    @DiscriminatorValue("world")
     public readonly type = "world";
 
     public sharedProp = 1;
@@ -37,13 +37,15 @@ export class World {
 export type HelloWorld = Hello | World;
 ```
 
-Next, configure a guard factory using `configureGuardFactory` by providing the name of the field you're discriminating on:
+Next, configure a guard factory using `configureGuardFactory` by providing the type we are narrowing from:
 
 ```typescript
 import { configureGuardFactory } from "@edcarroll/class-discriminators";
 
-const guardFactory = configureGuardFactory<HelloWorld>("type");
+const guardFactory = configureGuardFactory<HelloWorld>();
 ```
+
+Note that you can optionally provide a property name to use as the discriminator property.
 
 Now you can use the guard factory to test the type of various values.
 
@@ -102,13 +104,13 @@ if (guardFactory(Hello)(item)) {
 
 ### API
 
-#### `@DiscriminatorValue(value:string)`
+#### `@DiscriminatorValue(value:string):PropertyDecorator`
 
-Decorator that configures a class with the provided discriminator value.
+Property decorator that configures a class with the provided discriminator value. Decorator must be applied to the discriminator property as in the examples above.
 
-#### `configureGuardFactory<T>(discriminatorProperty:keyof T):GuardFactory<T, ...U extends T>`
+#### `configureGuardFactory<T>(discriminatorProperty?:keyof T):GuardFactory<T, ...U extends T>`
 
-Takes a property name to use for discriminator value checks, and returns a `GuardFactory` function.
+Takes an optional property name override (ommitting this value uses the property the `@DiscriminatorValue` decorator was applied to) to use for discriminator value checks, and returns a `GuardFactory` function.
 
 ##### `GuardFactory<T, ...U extends T>(...types:Class<U>[]):Guard<T, U>`
 

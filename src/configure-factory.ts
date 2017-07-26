@@ -7,7 +7,6 @@ declare global {
     }
 }
 
-
 export type Guard<T, U extends T> = (guardee:T) => guardee is U;
 
 // tslint:disable-next-line:ext-variable-name
@@ -94,8 +93,22 @@ export function extractDiscriminators<T>(types:Class<T>[]):string[] {
     });
 }
 
-export function configureGuardFactory<T>(discriminatorProperty:keyof T):GuardFactory<T> {
-    return <U extends T>(...types:Class<U>[]) =>
-        (guardee:T):guardee is U =>
-            extractDiscriminators(types).indexOf(guardee[discriminatorProperty].toString()) !== -1;
+export function extractDiscriminatorProperty<T>(types:Class<T>[]):string {
+    const [first, ...rest] = types as DiscriminatedClass<T>[];
+    const property = first.discriminatorProperty;
+    rest.forEach(t => {
+        if (t.discriminatorProperty !== property) {
+            throw new Error(`Class ${t.name} uses a different discriminator property to the other classes in the array.`);
+        }
+    });
+    return property;
+}
+
+export function configureGuardFactory<T>(discriminatorProperty?:keyof T):GuardFactory<T> {
+    return <U extends T>(...types:Class<U>[]) => {
+        const property = discriminatorProperty || extractDiscriminatorProperty(types);
+        return (guardee:T):guardee is U =>
+            extractDiscriminators(types).indexOf(guardee[property as keyof T].toString()) !== -1;
+    };
+
 }
